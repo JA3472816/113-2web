@@ -31,13 +31,13 @@
                 imgs.forEach(img=>{img.src="pic/0.png";});
             },3000);
             gamestarting=true;
-            p1=0;p2=0;
+            p1=-1;p2=-1;
         }
         function pickImg() {
-            if(!gamestarting || p2!=0) return;
+            if(!gamestarting || p2!=-1) return;
             img=event.target;
             idx=imgs.indexOf(img);
-            if(p1==0) {
+            if(p1==-1) {
                 p1=idx;
                 img.src=`pic/${cards[p1]}.png`;
             }
