@@ -3,6 +3,11 @@
         <title>0428-JS打字遊戲</title>
         <meta charset="UTF-8">
         <style>
+            #status {
+                /*display: none;*/
+                background: rgba(187, 67, 227, 0.777);
+
+            }
             .word{
                 display: inline-block;
                 padding: 5px,10px;
@@ -10,7 +15,10 @@
                 text-align: center;
                 font-size: 32pt;
                 font-family: Arial, Helvetica, sans-serif;
-                position: relative;
+                position: absolute;
+            }
+            red {
+                color: red;
             }
 
         </style>
@@ -19,12 +27,33 @@
             function kbDown() {
                 //console.log(event.key);
                 event.preventDefault();
+                words=Array.from(document.getElementsByClassName("word"));
+                words.forEach(function(w){
+                    w.innerHTML=w.innerText;
+                });
                 if(event.key=="Enter"){
+                    words.filter(function(w){
+                     return w.innerText==input;
+                }).forEach(function(w){
+                    clearInterval(w.move);
+                    w.remove();
+                });               
                     input="";
                 }
-                else if(event.key.length == 1){
-                    input+=event.key;
+                else if(event.key=="Backspace"){
+
                 }
+                else if(event.key.length == 1){
+                    var code=event.key.charCodeAt(0);
+                    if((code>=65 && code<=90) || (code>=97 && code<=122)){
+                        input+=event.key;
+                    }
+                }        
+                words.filter(function(w){
+                     return w.innerText.startswith(input);
+                }).forEach(function(w){
+                     w.innerHTML=`<mark>${input}</mark>`+w.innerText.substr(input.length);
+                });               
             }
             function rand(min,max){
                 return Math.floor(Math.random()*(max-min+1))+min;
@@ -51,24 +80,27 @@
                     var a=document.createElement("div");
                     a.className="word";
                     a.innerHTML=genWord();
-                    a.pos={x:rand(10,document.body.offsetWidth-100),y:0};
+                    a.pos={x:rand(10,document.body.offsetWidth-250),y:70};
                     a.style.left=a.pos.x+"px";
                     a.move=setInterval(function(o){
                         o.pos.y+=5;
                         o.style.top=o.pos.y+"px";
-                        if(o.pos.y > document.body.offsetHeight-100) {
+                        if(o.pos.y > (document.body.offsetHeight-100)) {
                             clearInterval(o.move);
                             o.remove();
                         }
                     },500,a);
                     document.body.appendChild(a);
                 },5000);
+                setInterval(function(){
+                    document.getElementById("gameTime").innerHTML=(++gameTime);
+                },1000);
             }
         </script>
 
     </head>
     <body onkeydown="kbDown();">
+        <div id="status">Time:<span id="gameTime">0</span>秒　　正確字數:<span id="wordCount">0</span>字</div>
         <button id="btnStart" onclick="gameStart();">遊戲開始</button>
-        <div class="word">A</div>
     </body>
 </html>
