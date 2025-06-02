@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>合成遊戲</title>
+        <meta charset="UTF-8">
+        <style>
+            #board {
+            width: 1000px;
+            height: 900px;
+            border: 3px rgb(176, 236, 176) solid;
+
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            grid-template-rows: repeat(5,1fr);
+            }
+            .cell {
+                border: 3px rgb(176, 236, 176) solid;
+                box-sizing: border-box;
+            }
+        </style>
+        <script>
+            function getRandomImage() {
+                var num = Math.floor(Math.random()*7)+1;
+            }
+            function createGrid() {
+                var box = document.getElementById("board");
+                for(var i=0;i<25;i++){
+                    var cell = document.createElement("div");
+                    cell.className="cell";
+                    var img = document.createElement("img");
+                    img.src =getRandomImage();
+                    cell.appendChild(img);
+                    box.appendChild(cell);
+                }
+            }
+            createGrid();
+        </script>
+    </head>
+    <body onload="gameInit();">
+        <div id="board">
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+            <div class="cell"></div>
+        </div>
+        <button onclick="gameStart();">遊戲開始</button>
+    </body>
+</html>
